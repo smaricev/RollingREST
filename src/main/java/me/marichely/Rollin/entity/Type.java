@@ -3,8 +3,10 @@ package me.marichely.Rollin.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "User_type")
 public class Type {
     @Column(name = "UserTypeID")
     @Id

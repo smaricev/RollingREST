@@ -28,6 +28,7 @@ public class BicycleController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @CrossOrigin
     public @ResponseBody List<Bicycle> getAllBicycles(@RequestHeader(value = "UserApiKey")String userApiKey){
         loginService.userCheck(userApiKey);
         List<Bicycle> bicycles = bicycleRepository.findAll();
@@ -38,6 +39,7 @@ public class BicycleController {
     }
 
     @GetMapping("/cat{category}")
+    @CrossOrigin
     public @ResponseBody List<Bicycle> getByCategory(@RequestHeader(value = "UserApiKey")String userApiKey,@PathVariable String category){
         loginService.userCheck(userApiKey);
         List<Bicycle> bicycles = bicycleRepository.findByCategory(categoryRepository.findOne(Integer.parseInt(category)));
@@ -47,6 +49,7 @@ public class BicycleController {
     }
 
     @PostMapping("/update")
+    @CrossOrigin
     public void updateBicycleStatus(@RequestHeader(value = "UserApiKey")String userApiKey,@RequestParam("bicycleid") String bicycleID,@RequestParam("status") String status,HttpServletResponse httpServletResponse){
         loginService.userCheck(userApiKey);
         if(!StringUtils.isNumeric(status))throw new RestException(HttpStatus.BAD_REQUEST,"Status must be a number (0, 1 or 2)");

@@ -32,6 +32,7 @@ public class EquipmentController {
 
 
     @RequestMapping(method = RequestMethod.GET)
+    @CrossOrigin
     public @ResponseBody List<Equipment> getAllEquipment(@RequestHeader(value = "UserApiKey")String userApiKey){
         loginService.userCheck(userApiKey);
         List<Equipment> equipment =  equipmentRepository.findAll();
@@ -40,6 +41,7 @@ public class EquipmentController {
     }
 
     @RequestMapping(value = "/{categoryId}",method = RequestMethod.GET)
+    @CrossOrigin
     public @ResponseBody List<Equipment> getByCategory(@RequestHeader(value = "UserApiKey")String userApiKey,@PathVariable String categoryId, HttpServletResponse httpServletResponse){
         loginService.userCheck(userApiKey);
         if(!StringUtils.isNumeric(categoryId)){

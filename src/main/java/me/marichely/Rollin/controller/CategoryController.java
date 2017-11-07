@@ -24,6 +24,7 @@ public class CategoryController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    @CrossOrigin
     public @ResponseBody List<Category> GetCategories(@RequestHeader(value = "UserApiKey")String userApiKey){
         loginService.userCheck(userApiKey);
         List<Category> categories =  categoryRepository.findAll();

@@ -1,9 +1,11 @@
 package me.marichely.Rollin.controller;
 
 import me.marichely.Rollin.entity.Bicycle;
+import me.marichely.Rollin.entity.Location;
 import me.marichely.Rollin.exceptions.RestException;
 import me.marichely.Rollin.repository.BicycleRepository;
 import me.marichely.Rollin.repository.CategoryRepository;
+import me.marichely.Rollin.repository.LocationRepository;
 import me.marichely.Rollin.services.LoginService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +21,14 @@ public class BicycleController {
     private BicycleRepository bicycleRepository;
     private CategoryRepository categoryRepository;
     private LoginService loginService;
+    private LocationRepository locationRepository;
 
     @Autowired
-    BicycleController(BicycleRepository bicycleRepository,CategoryRepository categoryRepository,LoginService loginService){
+    BicycleController(BicycleRepository bicycleRepository, CategoryRepository categoryRepository, LoginService loginService, LocationRepository locationRepository){
         this.bicycleRepository = bicycleRepository;
         this.categoryRepository = categoryRepository;
         this.loginService=loginService;
+        this.locationRepository = locationRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -64,6 +68,18 @@ public class BicycleController {
         bicycleRepository.save(bicycle);
         httpServletResponse.setStatus(200);
     }
+
+    @GetMapping("/location")
+    @CrossOrigin
+    public @ResponseBody List<Location> getBicycleLocations(@RequestHeader(value = "UserApiKey")String userApiKey,@RequestParam("bicycleid") String bicycleID){
+        loginService.userCheck(userApiKey);
+        if(!StringUtils.isNumeric(bicycleID))throw new RestException(HttpStatus.BAD_REQUEST,"bicycleid must be a number");
+        Bicycle bicycle = bicycleRepository.findOne(Integer.parseInt(bicycleID));
+        if(bicycle == null) throw new RestException(HttpStatus.NOT_FOUND,"Couldn't find the bicycle for the provided ID" + bicycleID);
+        List<Location> location = locationRepository.findByBicycle(bicycle);
+        return location;
+    }
+
 
 
 }

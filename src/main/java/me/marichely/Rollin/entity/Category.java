@@ -1,6 +1,7 @@
 package me.marichely.Rollin.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.util.List;
@@ -9,9 +10,12 @@ import java.util.List;
 @Table(name = "Category")
 public class Category {
     @Column(name = "Name")
+    @JsonProperty(value = "name")
     private String name;
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name ="CategoryID")
+    @JsonProperty(value = "categoryid")
     private Integer CategoryID;
 
     @JsonIgnore

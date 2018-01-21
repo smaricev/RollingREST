@@ -1,5 +1,7 @@
 package me.marichely.Rollin.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,22 +9,31 @@ import javax.persistence.*;
 public class User {
     @Column(name = "UserID")
     @Id
-    Integer id;
-    @Column(name="Username")
-    String userName;
-    @Column(name="Name")
-    String name;
-    @Column(name="Surname")
-    String surName;
-    @Column(name="Email")
-    String email;
-    @Column(name="Password")
-    String passWord;
-    @Column(name="Apikey")
-    String apiKey;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonProperty(value = "userid")
+    private Integer id;
+    @Column(name = "Username")
+    @JsonProperty(value = "username")
+    private String userName;
+    @Column(name = "Name")
+    @JsonProperty(value = "name")
+    private String name;
+    @Column(name = "Surname")
+    @JsonProperty(value = "surname")
+    private String surName;
+    @Column(name = "Email")
+    @JsonProperty(value = "email")
+    private String email;
+    @Column(name = "Password")
+    @JsonProperty(value = "password")
+    private String passWord;
+    @Column(name = "Apikey")
+    @JsonProperty(value = "apikey")
+    private String apiKey;
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="Type")
-    Type type;
+    @JoinColumn(name = "Type")
+    @JsonProperty(value = "type")
+    private Type type;
 
     public Integer getId() {
         return id;

@@ -1,17 +1,19 @@
 package me.marichely.Rollin.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
 
 @Entity
 @Table(name = "User_type")
 public class Type {
     @Column(name = "UserTypeID")
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @JsonProperty(value = "usertypeid")
     private Integer id;
     @Column(name = "Name")
+    @JsonProperty(value = "name")
     private String name;
 
     public Integer getId() {

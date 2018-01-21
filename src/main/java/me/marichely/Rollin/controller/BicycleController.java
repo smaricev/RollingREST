@@ -42,6 +42,18 @@ public class BicycleController {
         return bicycles;
     }
 
+    @RequestMapping(method = RequestMethod.GET,path = "/{id}")
+    @CrossOrigin
+    public @ResponseBody Bicycle getByID(@RequestHeader(value = "UserApiKey")String userApiKey,@PathVariable String id){
+        loginService.userCheck(userApiKey);
+        if(!StringUtils.isNumeric(id)){
+            throw new RestException(HttpStatus.FORBIDDEN,"Id needs to be a number");
+        }
+        Integer ids = Integer.parseInt(id);
+        Bicycle bicycle = bicycleRepository.findOne(ids);
+        return bicycle;
+    }
+
     @GetMapping("/cat{category}")
     @CrossOrigin
     public @ResponseBody List<Bicycle> getByCategory(@RequestHeader(value = "UserApiKey")String userApiKey,@PathVariable String category){
@@ -78,6 +90,18 @@ public class BicycleController {
         if(bicycle == null) throw new RestException(HttpStatus.NOT_FOUND,"Couldn't find the bicycle for the provided ID" + bicycleID);
         List<Location> location = locationRepository.findByBicycle(bicycle);
         return location;
+    }
+
+    @PostMapping("/location")
+    @CrossOrigin
+    public void postBicycleLocation(@RequestHeader(value = "UserApiKey")String userApiKey,@RequestBody Location location,HttpServletResponse httpServletResponse){
+        loginService.userCheck(userApiKey);
+        if(location == null && location.getBicycle() == null && location.getBicycle().getBicycleID() == null)throw new RestException(HttpStatus.BAD_REQUEST,"location object is invalid");
+        Integer bicycleID = location.getBicycle().getBicycleID();
+        Bicycle bicycle = bicycleRepository.findOne(bicycleID);
+        if(bicycle == null) throw new RestException(HttpStatus.NOT_FOUND,"Couldn't find the bicycle for the provided ID" + bicycleID);
+        locationRepository.save(location);
+        httpServletResponse.setStatus(200);
     }
 
 

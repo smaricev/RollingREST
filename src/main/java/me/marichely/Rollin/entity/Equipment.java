@@ -1,8 +1,13 @@
 package me.marichely.Rollin.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "Equipment")
@@ -31,6 +36,17 @@ public class Equipment {
     @JoinColumn(name = "Category")
     @JsonProperty(value = "category")
     private Category category;
+    @JsonIgnore
+    @ManyToMany(mappedBy = "equipments")
+    private Set<Rent> Rents = new HashSet<>();
+    @JsonIgnore
+    public Set<Rent> getRents() {
+        return Rents;
+    }
+
+    public void setRents(Set<Rent> rents) {
+        Rents = rents;
+    }
 
     public String getName() {
         return name;

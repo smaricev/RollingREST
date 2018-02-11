@@ -54,6 +54,4 @@ public class EquipmentController {
         return equipmentRepository.findByCategory(category);
     }
 
-
-
 }

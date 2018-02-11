@@ -1,10 +1,11 @@
 package me.marichely.Rollin.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.util.*;
 
 @Entity
 @Table(name = "Rent")
@@ -36,6 +37,21 @@ public class Rent {
     @JoinColumn(name = "User")
     @JsonProperty(value = "user")
     private User user;
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(
+            name = "Equipment_with_Rent",
+            joinColumns = {@JoinColumn(name = "Rent")},
+            inverseJoinColumns = {@JoinColumn(name = "Equipment")}
+    )
+    private Set<Equipment> equipments = new HashSet<>();
+    @JsonIgnore
+    public Set<Equipment> getEquipments() {
+        return equipments;
+    }
+
+    public void setEquipments(Set<Equipment> equipments) {
+        this.equipments = equipments;
+    }
 
     public Integer getRentId() {
         return rentId;

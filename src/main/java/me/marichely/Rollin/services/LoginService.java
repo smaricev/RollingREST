@@ -20,6 +20,7 @@ public class LoginService {
 
     public void userCheck(String userApiKey){
         if(StringUtils.isEmpty(userApiKey))throw  new RestException(HttpStatus.BAD_REQUEST,"You need to provide an api key");
+        if(!StringUtils.isNumeric(userApiKey))throw new RestException(HttpStatus.BAD_REQUEST,"api key needs to be a number");
         User user = userRepository.findByApiKey(userApiKey);
         if(user == null) throw  new RestException(HttpStatus.NOT_FOUND,"Couldn't find user with provided api key");
     }

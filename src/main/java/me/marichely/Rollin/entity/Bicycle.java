@@ -1,36 +1,49 @@
 package me.marichely.Rollin.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Bicycle")
 public class Bicycle {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BicycleID")
     @JsonProperty(value = "bicycleid")
-    Integer bicycleID;
+    private Integer bicycleID;
     @Column(name = "Name")
     @JsonProperty(value = "name")
-    String name;
-    @Column(name ="State")
+    private String name;
+    @Column(name = "State")
     @JsonProperty(value = "state")
-    Integer state;
-    @Column(name ="Price_per_hour")
+    private Integer state;
+    @Column(name = "Price_per_hour")
     @JsonProperty(value = "price_per_hour")
-    Double pricePerHour;
+    private Double pricePerHour;
     @Column(name = "Price_per_day")
     @JsonProperty(value = "price_per_day")
-    Double pricePerDay;
+    private Double pricePerDay;
     @Column(name = "Currency")
     @JsonProperty(value = "currency")
-    String currency;
+    private String currency;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "Category")
     @JsonProperty(value = "category")
-    Category category;
+    private Category category;
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "bicycle")
+    List<BicyclePicture> bicyclePicture;
+
+    public List<BicyclePicture> getBicyclePicture() {
+        return bicyclePicture;
+    }
+
+    public void setBicyclePicture(List<BicyclePicture> bicyclePicture) {
+        this.bicyclePicture = bicyclePicture;
+    }
 
     public Integer getBicycleID() {
         return bicycleID;

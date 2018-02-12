@@ -3,6 +3,7 @@ package me.marichely.Rollin.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.*;
@@ -18,9 +19,11 @@ public class Rent {
     private Integer rentId;
     @Column(name = "dateFrom")
     @JsonProperty(value = "dateFrom")
+    @DateTimeFormat
     private Date dateFrom;
     @Column(name = "dateTo")
     @JsonProperty(value = "dateTo")
+    @DateTimeFormat
     private Date dateTo;
     @Column(name = "Status")
     @JsonProperty(value = "status")

@@ -39,7 +39,8 @@ public class RentController {
         this.equipmentRepository = equipmentRepository;
     }
 
-    @RequestMapping(value = "/user")
+    @RequestMapping(method = RequestMethod.GET,value = "/user" )
+    @CrossOrigin
     public @ResponseBody
     List<Rent> getRentByID(@RequestHeader(value = "UserApiKey") String userApiKey) {
         loginService.userCheck(userApiKey);
@@ -49,6 +50,7 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/object")
+    @CrossOrigin
     public void removeRent(@RequestHeader(value = "UserApiKey") String userApiKey, @RequestBody Rent rent, HttpServletResponse httpServletResponse) throws IOException {
         loginService.userCheck(userApiKey);
         if (rent != null) {
@@ -59,6 +61,7 @@ public class RentController {
 
 
     @RequestMapping(method = RequestMethod.DELETE)
+    @CrossOrigin
     public void removeRentWithId(@RequestHeader(value = "UserApiKey") String userApiKey, @RequestHeader(value = "rentid") String rentID, HttpServletResponse httpServletResponse) throws IOException {
         loginService.userCheck(userApiKey);
         if (!StringUtils.isEmpty(rentID)) {
@@ -71,6 +74,7 @@ public class RentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
+    @CrossOrigin
     public void addNew(@RequestHeader(value = "UserApiKey") String userApiKey, @RequestBody Rent rent, HttpServletResponse httpServletResponse) throws IOException {
         loginService.userCheck(userApiKey);
         if (rent != null) {
@@ -84,6 +88,7 @@ public class RentController {
     }
 
     @RequestMapping(value = "/equipment", method = RequestMethod.GET)
+    @CrossOrigin
     public @ResponseBody
     Set<Equipment> findEquipmentForRent(@RequestHeader(value = "UserApiKey") String userApiKey, @RequestHeader(value = "rentid") String rentID) {
         loginService.userCheck(userApiKey);
@@ -97,6 +102,7 @@ public class RentController {
     }
 
     @RequestMapping(value = "/equipment", method = RequestMethod.POST)
+    @CrossOrigin
     public @ResponseBody
     String setEquipmentForRent(@RequestHeader(value = "UserApiKey") String userApiKey, @RequestHeader(value = "rentid") String rentID, @RequestHeader(value = "equipmentid")String equipmentID) {
         loginService.userCheck(userApiKey);
@@ -109,6 +115,7 @@ public class RentController {
     }
 
     @RequestMapping(value = "/equipment", method = RequestMethod.DELETE)
+    @CrossOrigin
     public @ResponseBody String deleteEquipmentForRent( @RequestHeader(value = "UserApiKey") String userApiKey, @RequestHeader(value = "rentid") String rentID, @RequestHeader(value = "equipmentid")String equipmentID){
         loginService.userCheck(userApiKey);
         Rent rent = findRentWithId(rentID);
